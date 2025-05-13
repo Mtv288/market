@@ -9,3 +9,7 @@ class GoodsIn(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class GoodsOut(GoodsIn):
+    id: int

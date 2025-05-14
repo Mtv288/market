@@ -103,9 +103,8 @@ function App() {
             return <Stack id={i} key={"stack"+i} className="item">
               <p key={"name"+i}>{item.name}</p>
               <p key={"price"+i}>Цена: {item.price}</p>
-              <Button key={"button"+i} onClick={()=>{
-                actual_item.id = i;
-                setActualItem(items[i])
+              <Button key={"button"+i} onClick={()=>{ 
+                setActualItem(items.find((el) => el.id === item.id))
               }}>Подробнее</Button>
               </Stack>
           })

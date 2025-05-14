@@ -4,3 +4,19 @@
   padding: 2rem;
   text-align: center;
 }
+
+.item {
+  border: 2px solid black;
+}
+
+#actual-photo {
+  width: 300px;
+  height: 300px;
+  border: 1px solid black;
+}
+#actual-description {
+  width: 300px;
+  height: 300px;
+  border: 1px solid black;
+  text-align: left;
+}

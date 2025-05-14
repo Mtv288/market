@@ -14,7 +14,8 @@ function App() {
     }
   }
   
-  // Получить продукты из базы данных
+  // ! Временно пока нет базы данных 
+  // Получить товары 
   const [items, setItems] = useState([])
   const [actual_item, setActualItem] = useState({})
   const fetchItems = async () => {
@@ -22,7 +23,6 @@ function App() {
     //const items = await response.json()
     //setItems(items.data)
 
-    // Временно пока нет базы данных, генерируем на фронтэнде
     let items_generated = []
     for (let i = 0; i < 5; i++) {
       let new_item = new Item (
@@ -63,6 +63,26 @@ function App() {
     setNewQuantity(e.target.value)
   }
  
+  // Удаление товара
+  function deleteItem () {
+      const updatedItems = items.filter((item) => item.id !== actual_item.id);
+      setItems(updatedItems);
+      setActualItem(updatedItems[0])
+  }
+
+  // Добавление товара
+  function addItem () {
+    let new_item = new Item (
+       newName,
+       newDescription,
+       newPrice,
+       newQuantity
+    )
+    items.push(new_item)
+    setItems([...items]);
+  }
+
+
   return (
     <ItemsContext.Provider value={{items, actual_item, fetchItems, setItems}}>
      <Stack>
@@ -74,11 +94,7 @@ function App() {
           <p><b>Описание: </b>{actual_item.description}</p>
           <p><b>Цена: </b>{actual_item.price}</p>   
           <p><b>Количество: </b>{actual_item.quantity}</p>   
-          <Button colorPalette="red" onClick={()=>{
-            const updatedItems = items.filter((item) => item.id !== actual_item.id);
-            setItems(updatedItems);
-            setActualItem(updatedItems[0])
-          }}>Удалить</Button>
+          <Button colorPalette="red" onClick={deleteItem}>Удалить</Button>
         </div>
       </Flex>
       <Grid templateColumns="repeat(4, 1fr)" gap="6">
@@ -100,16 +116,7 @@ function App() {
           <Input value={newDescription} onChange={handleNewDescription} placeholder="Описание" />
           <Input value={newPrice} onChange={handleNewPrice} placeholder="Цена" />
           <Input value={newQuantity} onChange={handleNewQuantity} placeholder="Колличество" />
-          <Button onClick={()=>{
-              let new_item = new Item (
-               newName,
-               newDescription,
-               newPrice,
-               newQuantity
-              )
-              items.push(new_item)
-              setItems([...items]);
-          }}colorPalette="blue">Добавить</Button>
+          <Button onClick={addItem} colorPalette="blue">Добавить</Button>
       </Container>
      </Stack>
     </ItemsContext.Provider>

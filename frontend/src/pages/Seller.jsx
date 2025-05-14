@@ -1,6 +1,6 @@
 import './Seller.css'
 import { Stack , Flex, Grid, Container, Button, Input} from "@chakra-ui/react"
-import React, { useEffect, useState, createContext, useContext } from "react";
+import React, { useEffect, useState } from "react";
 
 function Seller() {
 
@@ -36,10 +36,6 @@ function Seller() {
     setItems([...items_generated]);
     setActualItem(items_generated[0])
   }
-
-  const ItemsContext = createContext({
-    items: [], actual_item: {}, fetchItems: () => {}, setItems: () => {}
-  })
 
   useEffect(() => {
     fetchItems()
@@ -84,7 +80,6 @@ function Seller() {
 
 
   return (
-    <ItemsContext.Provider value={{items, actual_item, fetchItems, setItems}}>
      <Stack>
       <h1><b>Маркет</b></h1>
       <Flex justify="center" gap="4">
@@ -118,7 +113,6 @@ function Seller() {
           <Button onClick={addItem} colorPalette="blue">Добавить</Button>
       </Container>
      </Stack>
-    </ItemsContext.Provider>
   )
 }
 

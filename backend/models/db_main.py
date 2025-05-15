@@ -1,49 +1,66 @@
+import asyncpg
 import os
-import psycopg2
 from dotenv import load_dotenv
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.orm import sessionmaker
+from backend.models.db_tables import Base
 
 load_dotenv()
 
-def create_user_and_db():
-    db_user = os.getenv("DB_USER")
-    db_password = os.getenv("DB_PASSWORD")
-    db_name = os.getenv("DB_NAME")
 
-    superuser = os.getenv("PG_SUPERUSER", "postgres")
-    superpass = os.getenv("PG_SUPERPASS", "")
-    host = os.getenv("DB_HOST", "localhost")
-    port = os.getenv("DB_PORT", "5432")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = os.getenv("DB_PORT", "5432")
+DB_NAME = os.getenv("DB_NAME")
+DEFAULT_DB = os.getenv("DEFAULT_DB", "postgres")
 
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    DATABASE_URL = (
+        f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@"
+        f"{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    )
+
+
+engine = create_async_engine(DATABASE_URL, echo=True, future=True)
+
+
+async_session_maker = sessionmaker(
+    bind=engine,
+    class_=AsyncSession,
+    expire_on_commit=False
+)
+
+
+async def create_database():
+    conn = await asyncpg.connect(
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DEFAULT_DB,
+        host=DB_HOST,
+        port=DB_PORT
+    )
+
+    exists = await conn.fetchval(
+        "SELECT 1 FROM pg_catalog.pg_database WHERE datname = $1", DB_NAME
+    )
+    if exists:
+        print(f"ℹ️ База данных '{DB_NAME}' уже существует.")
+    else:
+        await conn.execute(sql := f'CREATE DATABASE "{DB_NAME}"')
+        print(f"✅ База данных '{DB_NAME}' была успешно создана.")
+
+    await conn.close()
+
+
+async def create_tables():
     try:
-        conn = psycopg2.connect(
-            dbname="postgres",
-            user=superuser,
-            password=superpass,
-            host=host,
-            port=port
-        )
-        conn.autocommit = True
-        cur = conn.cursor()
-
-        cur.execute("SELECT 1 FROM pg_roles WHERE rolname = %s", (db_user,))
-        if not cur.fetchone():
-            cur.execute(f"CREATE ROLE {db_user} LOGIN PASSWORD %s", (db_password,))
-            print(f"✅ Пользователь '{db_user}' создан.")
-        else:
-            print(f"ℹ️ Пользователь '{db_user}' уже существует.")
-
-        cur.execute("SELECT 1 FROM pg_database WHERE datname = %s", (db_name,))
-        if not cur.fetchone():
-            cur.execute(f"CREATE DATABASE {db_name} OWNER {db_user}")
-            print(f"✅ База данных '{db_name}' создана.")
-        else:
-            print(f"ℹ️ База данных '{db_name}' уже существует.")
-
-        cur.execute(f"GRANT ALL PRIVILEGES ON DATABASE {db_name} TO {db_user}")
-        print(f"✅ Права на базу '{db_name}' выданы пользователю '{db_user}'.")
-
-        cur.close()
-        conn.close()
-
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        print("✅ Таблицы успешно созданы.")
     except Exception as e:
-        print("❌ Ошибка при создании пользователя или базы:", e)
+        print(f"❌ Ошибка при создании таблиц: {e}")
+
+

@@ -1,19 +1,22 @@
-
 from fastapi import FastAPI
-from backend.models.db_main import create_user_and_db
+from contextlib import asynccontextmanager
+from backend.models.db_main import create_database, create_tables
+from backend.routers import router
 
-app = FastAPI()
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await create_database()
+    await create_tables()
+    yield
 
+app = FastAPI(lifespan=lifespan)
 
-@app.on_event("startup")
-def startup():
-    create_user_and_db()
+app.include_router(router)
 
 @app.get("/")
 async def read_root():
     return {"status": "ok"}
-
 
 if __name__ == "__main__":
     import uvicorn

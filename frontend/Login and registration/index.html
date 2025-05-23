@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <div class="login-wrapper" id="loginWrapper">
+        <form class="login-form" id="loginForm">
+            <h2>Вход</h2>
+            <input type="text" id="username" placeholder="Логин" required>
+            <input type="password" id="password" placeholder="Пароль" required>
+            <button type="submit">Войти</button>
+            <div id="errorMessage" class="error-message">Неверный логин или пароль</div>
+            <p style="text-align: center; margin-top: 10px;">
+                Нет аккаунта? <button type="button" id="showRegister" style="background:none; border:none; color:#4da6ff; cursor:pointer;">Зарегистрироваться</button>
+            </p>
+            <p style="text-align: center; margin-top: 10px;">
+                <button type="button" id="forgotPassword">Забыли пароль?</button>
+            </p>
+        </form>
+
+        <form class="login-form" id="registerForm" style="display: none;">
+            <h2>Регистрация</h2>
+            <input type="text" id="newUsername" placeholder="Новый логин" required>
+            <input type="password" id="newPassword" placeholder="Новый пароль" required>
+            <button type="submit">Зарегистрироваться</button>
+            <p style="text-align: center; margin-top: 10px;">
+                Уже есть аккаунт? <button type="button" id="showLogin" style="background:none; border:none; color:#4da6ff; cursor:pointer;">Войти</button>
+            </p>
+        </form>
+    </div>
+    <div class="theme-toggle" id="themeToggle">
+        <button class="theme-btn" id="toggleButton">
+            <img src="pref/light.png" alt="Иконка темы" style="width:24px; height:24px;">
+        </button>
+        <div class="theme-options" id="themeOptions">
+            <button data-theme="light">Светлая</button>
+            <button data-theme="dark">Тёмная</button>
+            <button data-theme="system">Системная</button>
+        </div>
+    </div>
+    <script src="js/auth.js"></script>
+
+</body>
+</html>

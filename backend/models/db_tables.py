@@ -6,6 +6,7 @@ from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, relationship
 
 class Base(DeclarativeBase):
     pass
+
 # Вот этот параметр в таблицах comment="Уникальный ID пользователя" нужен просто для комментариев
 # если тот же Dbeaver или PgAdmin пользовать то к столбцам будут комментарии, на сам код не влияет просто для удобства
 

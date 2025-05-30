@@ -18,6 +18,7 @@ class User(Base):
     email: Mapped[str] = mapped_column(nullable=False, unique=True, comment="Электронная почта")
     password_hash: Mapped[str] = mapped_column(nullable=False, comment="Хэш пароля")
     name: Mapped[str] = mapped_column(nullable=False, comment="Имя пользователя")
+    phone:Mapped[str] = mapped_column(nullable=True, comment= "Телефон пользователя")
     is_seller: Mapped[bool] = mapped_column(nullable=False, default=False, comment="Признак продавца")
 
     goods = relationship("Goods", back_populates="seller")

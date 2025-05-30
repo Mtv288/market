@@ -11,7 +11,8 @@ class UserBase(BaseModel):
     is_seller: bool = False
 
 class UserCreate(UserBase):
-    password: str  # пароль при создании (не хэш)
+    password: str  # пароль при создании не хэш, тут можно отдельно валидацию добавить типа количество символов
+    # заглавные буквы числа
 
 class UserRead(UserBase):
     id: int

@@ -8,7 +8,7 @@ class Base(DeclarativeBase):
     pass
 
 
-# 👤 Пользователи
+# Пользователи
 class User(Base):
     __tablename__ = "users"
 
@@ -24,7 +24,7 @@ class User(Base):
     cart_items = relationship("CartItem", back_populates="user")
 
 
-# 🏷️ Категории товаров
+# Категории товаров
 class Category(Base):
     __tablename__ = "categories"
 

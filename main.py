@@ -20,14 +20,14 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-# Абсолютный путь к папке static
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(BASE_DIR, "frontend", "login_registration", "static")
 
-# Подключение статики
+
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-# Путь к шаблонам (если они лежат рядом с static)
+
 TEMPLATES_DIR = os.path.join(BASE_DIR, "frontend", "login_registration", "templates")
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
@@ -39,4 +39,4 @@ async def read_root(request: Request):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

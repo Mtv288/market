@@ -30,7 +30,7 @@ engine = create_async_engine(DATABASE_URL, echo=True, future=True)
 async_session_maker = sessionmaker(
     bind=engine,
     class_=AsyncSession,
-    expire_on_commit=False
+    expire_on_commit=True # Тут если False поставить то не будет постоянно в бд лезть, для разработки можно пользовать
 )
 
 

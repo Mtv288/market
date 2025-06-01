@@ -1,7 +1,8 @@
 from datetime import datetime
 from decimal import Decimal
 from typing import Optional, List
-from pydantic import BaseModel, EmailStr, conint, constr
+from pydantic import BaseModel, EmailStr, conint, field_validator
+import re
 
 
 # Пользователь
@@ -11,14 +12,34 @@ class UserBase(BaseModel):
     is_seller: bool = False
 
 class UserCreate(UserBase):
-    password: str  # пароль при создании не хэш, тут можно отдельно валидацию добавить типа количество символов
-    # заглавные буквы числа
+    password: str
+
+    @field_validator("password")
+    @classmethod
+    def strong_password(cls, v):
+        if len(v) < 8:
+            raise ValueError("Пароль должен быть не менее 8 символов")
+        if not re.search(r"[A-Z]", v):
+            raise ValueError("Пароль должен содержать заглавную букву")
+        if not re.search(r"[a-z]", v):
+            raise ValueError("Пароль должен содержать строчную букву")
+        if not re.search(r"[0-9]", v):
+            raise ValueError("Пароль должен содержать цифру")
+        return v
 
 class UserRead(UserBase):
     id: int
 
     class Config:
         orm_mode = True
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
 
 
 # Категория

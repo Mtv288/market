@@ -1,0 +1,204 @@
+.cards-block {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    padding: 50px;
+    background: #FFF9EF;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+ 
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-rows: auto;
+    gap: 20px;
+    max-width: 1600px;
+    }
+
+.card {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+    max-height: 450px;
+    border-radius: 20px;
+    gap: 3px;
+    padding: 0;
+    overflow: hidden;
+    transition: transform .5s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.img-wrapper {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 50px;
+}
+
+.img-card {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.inform-block {
+    width: 100%;
+    height: 100%;
+    max-height: 170px;
+}
+
+.name-card {
+    color: #A7B6A3;
+    padding: 10px;
+    font-size: 30px;
+}
+
+.description-card {
+    color: #A7B6A3;
+    font-size: 16px;
+    padding: 10px;
+}
+
+.price {
+    color: #A7B6A3;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.btn-block-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 5px;
+    width: 100%;
+    height: 100%;
+    max-height: 70px;
+    position: relative;
+}
+
+.btn-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 120px;
+    height: 100%;
+    max-height: 50px;
+    padding: 10px 20px;
+    font-size: 15px;
+    background-color: #FFF9EF;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #8DDC92;
+    transition: .3s;
+    border: 4px solid #8DDC92;
+    border-radius: 20px;
+}
+
+.btn-card:nth-child(1) {
+    border-start-start-radius: 20px;
+    border-end-start-radius: 20px;
+    border-start-end-radius: 10px;
+    border-end-end-radius: 10px;
+}
+
+.btn-card:nth-child(2) {
+    border-end-end-radius: 20px;
+    border-start-end-radius: 20px;
+    border-start-start-radius: 10px;
+    border-end-start-radius: 10px;
+}
+
+
+@media (max-width: 1200px) {
+    .cards {
+        grid-template-columns: repeat(5, minmax(140px, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .cards {
+        grid-template-columns: repeat(5, minmax(120px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .cards-block {
+        width: 100%;
+        height: 100%;
+        padding: 20px 10px 0 10px;
+    }
+
+    .cards {
+         grid-template-columns: repeat(2, minmax(150px, 1fr));
+         gap: 10px;
+    }
+
+    .inform-block {
+    width: 100%;
+    height: 100%;
+    max-height: 100px;
+    }
+
+    .btn-block-card {
+    width: 100%;
+    height: 100%;
+    max-height: 70px;
+    position: relative;
+    top: 15px;
+}
+
+.btn-card {
+    width: 100%;
+    max-width: 80px;
+    height: 100%;
+    max-height: 30px;
+
+    font-size: 15px;
+}
+
+
+    .img-wrapper {
+        height: 180px;
+    }
+
+    .name-card {
+        font-size: 18px;
+        padding: 5px;
+    }
+
+    .description-card {
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .price {
+        font-size: 14px;
+        padding: 5px;
+    }
+
+    .btn-card {
+        font-size: 12px;
+        padding: 6px;
+    }
+}

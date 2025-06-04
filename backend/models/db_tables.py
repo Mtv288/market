@@ -121,7 +121,7 @@ class Payment(Base):
     order_id: Mapped[int] = mapped_column(ForeignKey("orders.id"), nullable=False, comment="ID заказа")
     payment_date: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, comment="Дата оплаты")
     amount: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False, comment="Сумма оплаты")
-    payment_method: Mapped[str] = mapped_column(nullable=False, comment="Метод оплаты (карта, PayPal и т.п.)")
+    payment_method: Mapped[str] = mapped_column(nullable=False, comment="Метод оплаты (карта, и т.п.)")
 
     order = relationship("Order", back_populates="payment")
 

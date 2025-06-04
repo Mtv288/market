@@ -1,13 +1,10 @@
 import os
-
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-
 from starlette.requests import Request
 from starlette.responses import HTMLResponse
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
-
 from backend.models.db_main import create_database, create_tables
 from backend.routers import router
 

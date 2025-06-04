@@ -3,7 +3,7 @@ import '../static/auth.css'
 import { Link } from 'react-router-dom';
 
 function AuthPage() {
-    const API_URL = 'http://localhost:5173';
+    const API_URL = 'http://localhost:8000';
 
 
     const [showLogin, setShowLogin] = useState(true);

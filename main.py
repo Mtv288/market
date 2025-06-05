@@ -7,6 +7,9 @@ from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 from backend.models.db_main import create_database, create_tables
 from backend.routers import router
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, HTTPException
+
 
 
 @asynccontextmanager
@@ -17,22 +20,40 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+origins = [
+    "http://localhost:5173"
+]
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_DIR = os.path.join(BASE_DIR, "frontend", "login_registration", "static")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
-TEMPLATES_DIR = os.path.join(BASE_DIR, "frontend", "login_registration", "templates")
-templates = Jinja2Templates(directory=TEMPLATES_DIR)
+@app.post("/login")
+async def login(data: dict):
+    username = data.get("username")
+    password = data.get("password")
+
+    if username == "user" and password == "pass":
+        return {"message": "Успешный вход", "user": {"username": username}}
+    else:
+
+        raise HTTPException(status_code=401, detail="Неверный логин или пароль")
+
+
+@app.get("/")
+async def root():
+    return {"message": "API работает"}
 
 app.include_router(router)
 
-@app.get("/", response_class=HTMLResponse)
-async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+
 
 if __name__ == "__main__":
     import uvicorn

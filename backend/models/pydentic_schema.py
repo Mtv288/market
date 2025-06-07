@@ -4,15 +4,19 @@ from typing import Optional, List
 from pydantic import BaseModel, EmailStr, conint, field_validator
 import re
 
-
 # Пользователь
 class UserBase(BaseModel):
-    email: EmailStr
-    name: str
+    username: str
+    name: Optional[str] = None
     is_seller: bool = False
 
-class UserCreate(UserBase):
+class UserCreate(BaseModel):
+    username: str
+    email: EmailStr
+    phone: str
     password: str
+    is_seller: bool = False
+    name: Optional[str] = None
 
     @field_validator("password")
     @classmethod
@@ -27,19 +31,24 @@ class UserCreate(UserBase):
             raise ValueError("Пароль должен содержать цифру")
         return v
 
-class UserRead(UserBase):
+class UserOut(UserBase):
     id: int
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
 
     class Config:
         orm_mode = True
 
 class UserLogin(BaseModel):
-    email: EmailStr
+    username: str
     password: str
 
 class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"
+
+class TokenData(BaseModel):
+    user_id: Optional[int] = None
 
 
 # Категория
@@ -113,7 +122,7 @@ class OrderRead(OrderBase):
 class ReviewBase(BaseModel):
     user_id: int
     goods_id: int
-    rating: conint(ge=1, le=5)  # рейтинг 1-5 типа звездочек
+    rating: conint(ge=1, le=5)
     comment: Optional[str] = None
 
 class ReviewRead(ReviewBase):

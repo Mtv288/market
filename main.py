@@ -9,6 +9,7 @@ from backend.models.db_main import create_database, create_tables
 from backend.routers import router
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException
+from backend.routers import auth
 
 
 
@@ -32,24 +33,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-
-
-@app.post("/login")
-async def login(data: dict):
-    username = data.get("username")
-    password = data.get("password")
-
-    if username == "user" and password == "pass":
-        return {"message": "Успешный вход", "user": {"username": username}}
-    else:
-
-        raise HTTPException(status_code=401, detail="Неверный логин или пароль")
-
-
-@app.get("/")
-async def root():
-    return {"message": "API работает"}
 
 app.include_router(router)
 

@@ -24,7 +24,7 @@
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     grid-template-rows: auto;
     gap: 20px;
-    max-width: 1600px;
+    max-width: 1280px;
     }
 
 .card {

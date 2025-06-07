@@ -1,24 +1,23 @@
 from datetime import datetime
 from decimal import Decimal
-from sqlalchemy import ForeignKey, Numeric, Boolean, DateTime
-from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, relationship
+from typing import Optional
 
+from sqlalchemy import ForeignKey, Numeric, Boolean, DateTime, String
+from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, relationship
 
 class Base(DeclarativeBase):
     pass
-
-# Вот этот параметр в таблицах comment="Уникальный ID пользователя" нужен просто для комментариев
-# если тот же Dbeaver или PgAdmin пользовать то к столбцам будут комментарии, на сам код не влияет просто для удобства
 
 # Пользователи
 class User(Base):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True, comment="Уникальный ID пользователя")
-    email: Mapped[str] = mapped_column(nullable=False, unique=True, comment="Электронная почта")
-    password_hash: Mapped[str] = mapped_column(nullable=False, comment="Хэш пароля")
-    name: Mapped[str] = mapped_column(nullable=False, comment="Имя пользователя")
-    phone:Mapped[str] = mapped_column(nullable=True, comment= "Телефон пользователя")
+    username: Mapped[str] = mapped_column(String(50), unique=True, nullable=False, comment="Логин пользователя")
+    name: Mapped[Optional[str]] = mapped_column(nullable=True, comment="Имя пользователя")
+    email: Mapped[Optional[str]] = mapped_column(nullable=True, comment="Email пользователя")
+    phone: Mapped[Optional[str]] = mapped_column(nullable=True, comment="Телефон пользователя")
+    password: Mapped[str] = mapped_column(nullable=False, comment="Пароль пользователя")
     is_seller: Mapped[bool] = mapped_column(nullable=False, default=False, comment="Признак продавца")
 
     goods = relationship("Goods", back_populates="seller")
@@ -37,7 +36,7 @@ class Category(Base):
     goods = relationship("Goods", back_populates="category")
 
 
-#  Бренды товаров
+# Бренды товаров
 class Brand(Base):
     __tablename__ = "brands"
 
@@ -47,7 +46,7 @@ class Brand(Base):
     goods = relationship("Goods", back_populates="brand")
 
 
-#  Товары
+# Товары
 class Goods(Base):
     __tablename__ = "goods"
 
@@ -56,11 +55,11 @@ class Goods(Base):
     description: Mapped[str] = mapped_column(nullable=False, comment="Описание товара")
     price: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False, comment="Цена товара")
     quantity: Mapped[int] = mapped_column(nullable=False, comment="Доступное количество")
-    certificate: Mapped[str | None] = mapped_column(nullable=True, comment="Сертификат товара (если есть)")
+    certificate: Mapped[Optional[str]] = mapped_column(nullable=True, comment="Сертификат товара (если есть)")
 
     seller_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False, comment="ID продавца")
     category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"), nullable=False, comment="ID категории")
-    brand_id: Mapped[int] = mapped_column(ForeignKey("brands.id"), nullable=True, comment="ID бренда")
+    brand_id: Mapped[Optional[int]] = mapped_column(ForeignKey("brands.id"), nullable=True, comment="ID бренда")
 
     seller = relationship("User", back_populates="goods")
     category = relationship("Category", back_populates="goods")
@@ -71,7 +70,7 @@ class Goods(Base):
     cart_items = relationship("CartItem", back_populates="goods")
 
 
-#  Заказы
+# Заказы
 class Order(Base):
     __tablename__ = "orders"
 
@@ -107,7 +106,7 @@ class Review(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False, comment="ID автора")
     goods_id: Mapped[int] = mapped_column(ForeignKey("goods.id"), nullable=False, comment="ID товара")
     rating: Mapped[int] = mapped_column(nullable=False, comment="Оценка (1–5)")
-    comment: Mapped[str] = mapped_column(nullable=True, comment="Комментарий")
+    comment: Mapped[Optional[str]] = mapped_column(nullable=True, comment="Комментарий")
 
     user = relationship("User", back_populates="reviews")
     goods = relationship("Goods", back_populates="reviews")

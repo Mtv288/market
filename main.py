@@ -1,15 +1,11 @@
 import os
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from starlette.requests import Request
-from starlette.responses import HTMLResponse
-from starlette.staticfiles import StaticFiles
-from starlette.templating import Jinja2Templates
 from backend.models.db_main import create_database, create_tables
 from backend.routers import router
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, HTTPException
-from backend.routers import auth
+from fastapi import FastAPI
+
 
 
 

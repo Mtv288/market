@@ -34,7 +34,7 @@ function AuthPage() {
         wrapper.classList.add("hide");
 
         setTimeout(() => {
-            window.location.href = "index.html"; 
+            window.location.href = "index.html";
         }, 500);
     };
 

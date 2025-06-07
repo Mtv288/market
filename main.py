@@ -1,5 +1,3 @@
-import os
-from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from backend.models.db_main import create_database, create_tables
 from backend.routers import router

@@ -46,6 +46,7 @@ class UserLogin(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"
+    user: Optional[UserOut] = None
 
 class TokenData(BaseModel):
     user_id: Optional[int] = None

@@ -7,6 +7,6 @@ export default defineConfig({
     host: true,
     port: 5173,
     cors: true,
-    allowedHosts: ['.ngrok-free.app'], // <-- разрешает все поддомены ngrok
+    allowedHosts: ['.ngrok-free.app'], // разрешает все поддомены ngrok, это для разработки потом убрать надо будет
   },
 })

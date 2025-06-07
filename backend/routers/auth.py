@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-
 from ..dependensy.db import get_db
 from ..models.pydentic_schema import UserCreate, UserOut, UserLogin, Token
 from ..services.auth import authenticate_user, get_password_hash, create_access_token

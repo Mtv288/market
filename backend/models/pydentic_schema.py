@@ -158,3 +158,4 @@ class CartItemRead(CartItemBase):
 
     class Config:
         orm_mode = True
+

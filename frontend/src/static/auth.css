@@ -4,12 +4,17 @@
 
 .header-block {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    padding: 0 60px;
 }
 
 .header-h1 {
-    font-size: 40px;
+    font-size: 50px;
+    justify-content: center;
 }
 
 .auth-container {
@@ -19,6 +24,8 @@
     width: 100%;
     min-height: 100vh;
     box-sizing: border-box;
+    position: relative;
+    bottom: 20px;
 }
 
 .login-wrapper {
@@ -53,6 +60,7 @@
         color: #ffffff;
         font-size: 1.5rem;
         border: none;
+        font-weight: bold;
     }
 
     .login-form button {
@@ -68,15 +76,9 @@
     }
     
     .login-form input::placeholder {
-        color: #b8e6c5; /* ñâåòëûé çåëåíîâàòûé äëÿ ÷èòàåìîñòè */
-        opacity: 1; /* ÷òîáû íå áûëî ñëèøêîì ïðîçðà÷íûì */
+        color: #8DDC92;
+        opacity: 1;
         font-weight: bold;
-    }
-
-    .login-form input:focus {
-        outline: none;
-        border-color: #b8e6c5; /* àêöåíò ïðè ôîêóñå */
-        background-color: #3d644b; /* ÷óòü ñâåòëåå ïðè ôîêóñå */
     }
 
 .hide {
@@ -163,7 +165,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
+    position: absolute;
     width: 50px;
     height: 50px;
     border-radius: 20px;
@@ -171,27 +173,33 @@
     left: 20px;
     font-size: 30px;
     border: none;
-    background-color: #f5f5f5;
-    color: #000000;
+    background-color: var(--button-bg);
+    color: var(--arrow-color);
+    cursor: pointer;
+    transition: all .3s ease;
 }
+
+.back-to-home:hover {
+    transform: scale(1.1);
+    background-color: var(--button-hover-bg, #e0e0e0);
+}
+
 
 .theme-btn {
     width: 50px;
     height: 50px;
     border-radius: 20px;
     border: none;
-    background: #1c3b2a;
-    color: white;
     font-size: 1.2rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    background-color: transparent !important;
 }
 
     .theme-btn.expanded {
         width: auto;
         height: auto;
-        padding: 10px;
+        padding: 3px;
     }
 
 .theme-options {
@@ -199,7 +207,6 @@
     flex-direction: column;
     gap: 8px;
     margin-top: 10px;
-  
     padding: 10px;
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(0,0,0,0.3);
@@ -220,7 +227,6 @@
             background: #3a5d4a;
         }
 
-/* Îâåðëåé-ëó÷ ñâåòà */
 .sunbeam-overlay {
     position: fixed;
     top: 0;
@@ -248,33 +254,55 @@
     }
 }
 
-:root {
-    --bg-color: #FFF9EF;
-    --text-color: #1c1c1c;
-    --input-bg: #f5f5f5;
-    --input-text-color: #8DDC92;
-    --button-bg: #f5f5f5;
-    --button-text-color: #467649;
-
-    --title-color: #000000; 
-    --auth-text-color: #000000;
-    --auth-link-color: #8DDC92;
-}
-
-[data-theme="dark"] {
+.dark {
   --bg-color: #467649;
   --text-color: #264728;
   --input-bg: #1E1E1E;
-  --input-text-color: #ffffff;
-  --btn-reg-color: #8DDC92;
+  --button-bg: #1E1E1E;
+  --button-hover-bg: #333;
+  --title-color: #264728;
+  --auth-text-color: #1E1E1E;
+  --auth-link-color: #8DDC92;
+  --submit-button-bg: #467649;
+  --arrow-color: #467649;
 }
 
-.login-form input[type="text"],
-.login-form input[type="password"],
-.login-form input[type="email"],
-.login-form input[type="phone"] {
+.light {
+  --bg-color: #5ccd63b3;
+  --text-color: #467649;
+  --input-bg: #f5f5f5;
+  --button-bg: #f5f5f5;
+  --button-hover-bg: #ddd;
+  --title-color: #f5f5f5;
+  --auth-text-color: #f5f5f5;
+  --auth-link-color: #467649;
+  --submit-button-bg: #8DDC92;
+  --input-focus-color: #FFFFFF;
+  --input-text-color: #5ccd63b3;
+  --input-focus-bg: #CDE5CF;
+}
+
+.login-form input {
   background-color: var(--input-bg);
   color: var(--input-text-color);
+}
+
+.login-form input::placeholder {
+    color: var(--input-text-color);
+}
+
+.light .login-form input:focus {
+    outline: none;
+    background-color: var(--input-focus-bg);
+    color: var(--input-focus-color);
+}
+
+.light .login-form input:focus::placeholder {
+    color: var(--input-focus-color);
+}
+
+.dark .login-form input:focus {
+    outline: none;
 }
 
 .login-form button[type="submit"] {
@@ -326,9 +354,10 @@
     transition: background-color 0.3s ease;
 }
 
-body {
+.auth-page-container {
     background-color: var(--bg-color);
     color: var(--text-color);
-    transition: background-color 0.8s ease, color 0.8s ease;
+    transition: background-color .8s ease, color .8s ease;
+    min-height: 100vh;
+    width: 100%;
 }
-

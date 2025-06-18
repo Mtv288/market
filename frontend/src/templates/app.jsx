@@ -4,21 +4,30 @@ import { BrowserRouter as Router, Routes, Route, Link, BrowserRouter } from 'rea
 import Header from './header';
 import ProductsPage from './products_page';
 import AuthPage from './auth';
+import { LoadignProvider } from './loading_context';
 
-function App() {
+function AppContent() {
   return (
    <Router>
-  <Routes>
-    <Route path='/' element={
-      <>
-        <Header />
-        <ProductsPage />
-      </>
-    } />
+    <Routes>
+      <Route path='/' element={
+        <>
+          <Header />
+          <ProductsPage />
+        </>
+      } />
 
     <Route path='/login' element={<AuthPage />} />
   </Routes>
 </Router>
+  )
+}
+
+function App() {
+  return (
+    <LoadignProvider>
+      <AppContent/>
+    </LoadignProvider>
   )
 }
 

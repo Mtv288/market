@@ -1,15 +1,56 @@
 import React, { useState, useEffect } from 'react';
+import Inputmask from 'inputmask';
 import '../static/auth.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function AuthPage() {
-    const API_URL = 'http://localhost:8000';
+    const API_URL = 'http://localhost:5173';
 
 
     const [showLogin, setShowLogin] = useState(true);
     const [errorMessage, setErrorMessage] = useState(false);
     const [themeOptionsVisible, setThemeOptionsVisible] = useState(false);
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "system");
+
+    const navigate = useNavigate();
+
+    // Прокрутка в начало страницы при переходе
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+
+    // Очистка ошибок после ввода
+    useEffect(() => {
+        const usernameInput = document.getElementById("username");
+        const passwordInput = document.getElementById("password");
+
+        const clearError = () => {
+            const loginError = document.getElementById("loginError");
+            if (loginError) loginError.textContent = "";
+        }
+
+        usernameInput?.addEventListener("input", clearError);
+        passwordInput?.addEventListener("input", clearError);
+
+        return () => {
+            usernameInput?.removeEventListener("input", clearError);
+            passwordInput?.removeEventListener("input", clearError);
+        };
+    }, []);
+
+    // Инициализация маски
+    useEffect(() => {
+        const phoneInput = document.getElementById("newPhone");
+        if (phoneInput) {
+            const maskOptions = {
+                mask: "+7 (999) 999-99-99",
+                showMaskOnHover: false,
+                autoUnmask: true
+            };
+            Inputmask(maskOptions).mask(phoneInput);
+        }
+    }, [showLogin]);
 
     useEffect(() => {
         const wrapper = document.getElementById("loginWrapper");
@@ -33,8 +74,9 @@ function AuthPage() {
         wrapper.classList.remove("show");
         wrapper.classList.add("hide");
 
+        // Переход на главную страницу при успешной регистрации/авторизации
         setTimeout(() => {
-            window.location.href = "index.html";
+            naviagate = "/"; 
         }, 500);
     };
 
@@ -44,6 +86,30 @@ function AuthPage() {
 
         const username = document.getElementById("username").value.trim();
         const password = document.getElementById("password").value.trim();
+
+        const submitBtn = document.getElementById("loginSubmitBtn");
+
+        if (submitBtn.disabled) return;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Загрузка...";
+
+        const isValidUsername = /^[a-zA-Z0-9_\-@.]+$/i.test(username);
+
+        if (!isValidUsername) {
+            loginError.textContent = "Логин содержить недопустимые символы";
+            return;
+        }
+
+        const loginError = document.getElementById("password-error");
+        loginError.textContent = ''; // Очистка предыдущего сообщения
+
+        if (username.length < 3 || username.length > 20) {
+            loginError.textContent = "Логин должен быть от 3 до 20 символов"
+        }
+        if (password.length < 9) {
+            loginError.textContent = "Пароль слишком короткий"
+        }
 
         try {
             const response = await fetch(`${API_URL}/login`, {
@@ -83,6 +149,34 @@ function AuthPage() {
         const newPhone = document.getElementById("newPhone").value.trim();
         const newPassword = document.getElementById("newPassword").value.trim();
 
+        // Проверка пароля
+        const hasLatinLetters = /[a-zA-Z]/.test(newPassword);
+        const hasUpperCase = /[A-Z]/.test(newPassword);
+        const hasDigit = /\d/.test(newPassword);
+
+        const passwordError = document.getElementById("password-error");
+        passwordError.textContent = ''; // Очистка предыдущего сообщения
+
+        if (newPassword.length < 9) {
+            passwordError.textContent = "Пароль должен содержать не менее 9 символов";
+            return;
+        }
+
+        if (!hasLatinLetters) {
+            passwordError.textContent = "Пароль должен содержать английские буквы";
+            return;
+        }
+
+        if (!hasUpperCase) {
+            passwordError.textContent = "Пароль должен содержать хотя бы одну заглавную букву";
+            return;
+        }
+
+        if (!hasDigit) {
+            passwordError.textContent = "Пароль должен содержать хотя бы одну цифру";
+            return;
+        }
+
         try {
             const response = await fetch(`${API_URL}/register`, {
                 method: 'POST',
@@ -98,7 +192,6 @@ function AuthPage() {
                 localStorage.setItem("authenticated", "true");
                 localStorage.setItem("username", newUsername);
                 localStorage.setItem("currentUser", JSON.stringify(result.user));
-
                 animateAndRedirect();
             } else {
                 alert(result.message || 'Ошибка регистрации');
@@ -108,31 +201,6 @@ function AuthPage() {
             alert('Произошла ошибка при регистрации');
         }
     };
-
-
-    // Изменение пароля
-    const handleForgotPassword = () => {
-        const username = document.getElementById("username").value.trim();
-        if (!username) {
-            alert("Пожалуйста, введите логин.");
-            return;
-        }
-
-        const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-        const user = storedUsers.find(user => user.username === username);
-
-        if (user) {
-            const newPassword = prompt("Введите новый пароль для восстановления:");
-            if (newPassword) {
-                user.password = newPassword;
-                localStorage.setItem("users", JSON.stringify(storedUsers));
-                alert("Пароль успешно изменен!");
-            }
-        } else {
-            alert("Пользователь с таким логином не найден.");
-        }
-    };
-
 
     // Смена темы
     const toggleThemeOptions = () => {
@@ -165,43 +233,26 @@ function AuthPage() {
         const body = document.documentElement;
 
         if (theme === "dark") {
-            // Темная тема
-            body.style.setProperty('--bg-color', '#467649');
-            body.style.setProperty('--text-color', '#264728');
-            body.style.setProperty('--input-bg', '#1E1E1E');
-            body.style.setProperty('--input-text-color', '#8DDC92');
-            body.style.setProperty('--title-color', '#264728');
-            body.style.setProperty('--button-bg', '#1E1E1E');
-            body.style.setProperty('--auth-text-color', '#1E1E1E');
-            body.style.setProperty('--auth-link-color', '#8DDC92');
-            body.style.setProperty('--submit-button-bg', '#467649');
+            body.classList.add("dark");
+            body.classList.remove("light");
         } else if (theme === "light") {
-            // Светлая тема
-             body.style.setProperty('--bg-color', '#5ccd63b3');
-             body.style.setProperty('--text-color', '#FFFFFF');
-             body.style.setProperty('--input-bg', '#f5f5f5');
-             body.style.setProperty('--input-text-color', '#333333');
-             body.style.setProperty('--button-bg', '#f5f5f5');  
-             body.style.setProperty('--title-color', '#f5f5f5');
-             body.style.setProperty('--auth-text-color', '#f5f5f5');
-             body.style.setProperty('--auth-link-color', '#467649');
-             body.style.setProperty('--submit-button-bg', '#8DDC92');
+            body.classList.add("light");
+            body.classList.remove("dark");
         } else if (theme === "system") {
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             applyTheme(prefersDark ? 'dark' : 'light');
             return;
         }
+
+        localStorage.setItem("theme", theme);
     };
 
     return (
         <>
-        <div className='header-block'>
-            <Link to="/" className='back-to-home'>&lt;</Link>
-            <h1 className='header-h1'>GreenUp</h1>
-            <div></div>
-             <div className="theme-toggle" id="themeToggle">
+        <div className="auth-page-container">
+              <div className="theme-toggle" id="themeToggle">
                 <button className={`theme-btn ${themeOptionsVisible ? "expanded" : ""}`} id="toggleButton" onClick={toggleThemeOptions}>
-                    <img src="./light.png" alt="Иконка темы" style={{ width: "24px", height: "24px" }} />
+                    <img src={theme === 'dark' ? './black.svg' : './white.svg'} alt="Иконка темы" />
                 </button>
                 {themeOptionsVisible && (
                     <div className="theme-options" id="themeOptions">
@@ -211,6 +262,9 @@ function AuthPage() {
                     </div>
                 )}
             </div>
+        <div className='header-block'>
+            <Link to="/" className='back-to-home'>&lt;</Link>
+            <h1 className='header-h1'>GreenUp</h1>
         </div>
         <div className="auth-container">
             <div className="login-wrapper" id="loginWrapper">
@@ -220,6 +274,7 @@ function AuthPage() {
                         <input type="text" id="username" placeholder="Имя" required />
                         <input type="password" id="password" placeholder="Пароль" required />
                         <button type="submit">Войти</button>
+                        <div id='loginError' style={{ color: "#ff5959", fontSize: '1em', letterSpacing: '1px'}}></div>
                         {errorMessage && <div className="error-message">Неверный логин или пароль</div>}
                         <p className='auth-link-text'>
                             Нет аккаунта? <button 
@@ -231,7 +286,7 @@ function AuthPage() {
                             </button>
                         </p>
                         <p style={{ textAlign: "center", marginTop: "10px" }}>
-                            <button type="button" id="forgotPassword" onClick={handleForgotPassword}>
+                            <button type="button" id="forgotPassword">
                                 Забыли пароль?
                             </button>
                         </p>
@@ -243,6 +298,7 @@ function AuthPage() {
                         <input type="email" id="newEmail" placeholder="Почта" required />
                         <input type="phone" id="newPhone" placeholder="Телефон" required />
                         <input type="password" id="newPassword" placeholder="Пароль" required />
+                        <div id='password-error' style={{ color: '#ff5959', fontSize: '1em', letterSpacing: '1px'}}></div>
                         <button type="submit">Зарегистрироваться</button>
                         <p className='auth-link-text'>
                             Есть аккаунт? <button 
@@ -254,13 +310,14 @@ function AuthPage() {
                             </button>
                         </p>
                         <p style={{ textAlign: "center", marginTop: "10px" }}>
-                            <button type="button" id="forgotPassword" onClick={handleForgotPassword}>
+                            <button type="button" id="forgotPassword">
                                 Забыли пароль?
                             </button>
                         </p>
                     </form>
                 )}
             </div>
+        </div>
         </div>
         </>
     );

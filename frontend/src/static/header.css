@@ -72,10 +72,26 @@ header.fixed.hide {
     justify-content: center;
     align-items: center;
     width: 250px;
-    height: 50px;
-    color: #467649;
-    border-right: 5px solid #FFF9EF;
-    font-size: 50px;
+    height: 70px;
+    color: transparent;
+    background: linear-gradient(90deg, #8DDC92, #467649, #b8e6c5, #8DDC92);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    font-size: 80px;
+    animation: shine 5s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .menu {

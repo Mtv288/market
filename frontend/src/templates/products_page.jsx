@@ -1,7 +1,22 @@
 import { useState, useEffect } from 'react'
 import '../static/products_page.css';
+import { useContext } from 'react';
+import { LoadingContext } from './loading_context';
 
 function ProductsPage () {
+    const { setLoading } = useContext(LoadingContext);
+
+    useEffect(() => {
+        setLoading(true);
+
+        //Эмуляция загрузки данных
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 1500);
+
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
         <>
         <div className='cards-block fade-in'>
@@ -16,8 +31,8 @@ function ProductsPage () {
                         <p className='price'>80000Р</p>
                     </div>
                     <div className='btn-block-card'>
-                        <button className='btn-card'>Купить</button>
-                        <button className='btn-card'>В корзину</button>
+                        <button className='btn-card'>КУПИТЬ</button>
+                        <button className='btn-card'>В КОРЗИНУ</button>
                     </div>
                 </li>
                  <li className='card'>
@@ -30,8 +45,8 @@ function ProductsPage () {
                         <p className='price'>80000Р</p>
                     </div>
                     <div className='btn-block-card'>
-                        <button className='btn-card'>Купить</button>
-                        <button className='btn-card'>В корзину</button>
+                        <button className='btn-card'>КУПИТЬ</button>
+                        <button className='btn-card'>В КОРЗИНУ</button>
                     </div>
                 </li>
                  <li className='card'>
@@ -44,8 +59,8 @@ function ProductsPage () {
                         <p className='price'>80000Р</p>
                     </div>
                     <div className='btn-block-card'>
-                        <button className='btn-card'>Купить</button>
-                        <button className='btn-card'>В корзину</button>
+                        <button className='btn-card'>КУПИТЬ</button>
+                        <button className='btn-card'>В КОРЗИНУ</button>
                     </div>
                 </li>
                  <li className='card'>
@@ -58,8 +73,8 @@ function ProductsPage () {
                         <p className='price'>80000Р</p>
                     </div>  
                     <div className='btn-block-card'>
-                        <button className='btn-card'>Купить</button>
-                        <button className='btn-card'>В корзину</button>
+                        <button className='btn-card'>КУПИТЬ</button>
+                        <button className='btn-card'>В КОРЗИНУ</button>
                     </div>
                 </li>
                  <li className='card'>
@@ -72,8 +87,8 @@ function ProductsPage () {
                         <p className='price'>80000Р</p>
                     </div>
                     <div className='btn-block-card'>
-                        <button className='btn-card'>Купить</button>
-                        <button className='btn-card'>В корзину</button>
+                        <button className='btn-card'>КУПИТЬ</button>
+                        <button className='btn-card'>В КОРЗИНУ</button>
                     </div>
                 </li>
                  <li className='card'>
@@ -86,8 +101,8 @@ function ProductsPage () {
                         <p className='price'>80000Р</p>
                     </div>
                     <div className='btn-block-card'>
-                        <button className='btn-card'>Купить</button>
-                        <button className='btn-card'>В корзину</button>
+                        <button className='btn-card'>КУПИТЬ</button>
+                        <button className='btn-card'>В КОРЗИНУ</button>
                     </div>
                 </li>
                  <li className='card'>
@@ -100,8 +115,8 @@ function ProductsPage () {
                         <p className='price'>80000Р</p>
                     </div>
                     <div className='btn-block-card'>
-                        <button className='btn-card'>Купить</button>
-                        <button className='btn-card'>В корзину</button>
+                        <button className='btn-card'>КУПИТЬ</button>
+                        <button className='btn-card'>В КОРЗИНУ</button>
                     </div>
                 </li>
                  <li className='card'>
@@ -114,8 +129,8 @@ function ProductsPage () {
                         <p className='price'>80000Р</p>
                     </div>
                     <div className='btn-block-card'>
-                        <button className='btn-card'>Купить</button>
-                        <button className='btn-card'>В корзину</button>
+                        <button className='btn-card'>КУПИТЬ</button>
+                        <button className='btn-card'>В КОРЗИНУ</button>
                     </div>
                 </li>
                  <li className='card'>
@@ -128,8 +143,8 @@ function ProductsPage () {
                         <p className='price'>80000Р</p>
                     </div>
                     <div className='btn-block-card'>
-                        <button className='btn-card'>Купить</button>
-                        <button className='btn-card'>В корзину</button>
+                        <button className='btn-card'>КУПИТЬ</button>
+                        <button className='btn-card'>В КОРЗИНУ</button>
                     </div>
                 </li>
                  <li className='card'>
@@ -142,8 +157,8 @@ function ProductsPage () {
                         <p className='price'>80000Р</p>
                     </div>  
                     <div className='btn-block-card'>
-                        <button className='btn-card'>Купить</button>
-                        <button className='btn-card'>В корзину</button>
+                        <button className='btn-card'>КУПИТЬ</button>
+                        <button className='btn-card'>В КОРЗИНУ</button>
                     </div>
                 </li>
                  <li className='card'>
@@ -156,8 +171,8 @@ function ProductsPage () {
                         <p className='price'>80000Р</p>
                     </div>
                     <div className='btn-block-card'>
-                        <button className='btn-card'>Купить</button>
-                        <button className='btn-card'>В корзину</button>
+                        <button className='btn-card'>КУПИТЬ</button>
+                        <button className='btn-card'>В КОРЗИНУ</button>
                     </div>
                 </li>
                  <li className='card'>
@@ -170,8 +185,8 @@ function ProductsPage () {
                         <p className='price'>80000Р</p>
                     </div>
                     <div className='btn-block-card'>
-                        <button className='btn-card'>Купить</button>
-                        <button className='btn-card'>В корзину</button>
+                        <button className='btn-card'>КУПИТЬ</button>
+                        <button className='btn-card'>В КОРЗИНУ</button>
                     </div>
                 </li>
             </ul>

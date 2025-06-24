@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import '../static/auth.css'
-import { Link } from 'react-router-dom';
+import '../static/auth.css';
+import { Link, useNavigate } from 'react-router-dom';
 
 function AuthPage() {
     const API_URL = 'http://localhost:8000';
-
+    const navigate = useNavigate();
 
     const [showLogin, setShowLogin] = useState(true);
     const [errorMessage, setErrorMessage] = useState(false);
@@ -16,7 +16,7 @@ function AuthPage() {
         setTimeout(() => {
             wrapper.classList.add("show");
         }, 100);
-        
+
         applyTheme(theme);
     }, []);
 
@@ -34,7 +34,7 @@ function AuthPage() {
         wrapper.classList.add("hide");
 
         setTimeout(() => {
-            window.location.href = "index.html";
+            navigate("/");  // <-- Здесь редирект на главную страницу через React Router
         }, 500);
     };
 
@@ -57,7 +57,6 @@ function AuthPage() {
             const result = await response.json();
 
             if (response.ok) {
-                // Сохранение данных
                 localStorage.setItem("authenticated", "true");
                 localStorage.setItem("username", username);
                 localStorage.setItem("currentUser", JSON.stringify(result.user));
@@ -72,7 +71,6 @@ function AuthPage() {
             setErrorMessage(true);
         }
     };
-
 
     // Обработка регистрации
     const handleRegister = async (e) => {
@@ -109,7 +107,6 @@ function AuthPage() {
         }
     };
 
-
     // Изменение пароля
     const handleForgotPassword = () => {
         const username = document.getElementById("username").value.trim();
@@ -133,14 +130,12 @@ function AuthPage() {
         }
     };
 
-
     // Смена темы
     const toggleThemeOptions = () => {
         setThemeOptionsVisible(!themeOptionsVisible);
     };
 
-
-    // Плавное появление страницы
+    // Плавное появление страницы и смена темы
     const animateSunbeamAndThemeChange = (selectedTheme) => {
         const overlay = document.createElement("div");
         overlay.classList.add("sunbeam-overlay");
@@ -165,7 +160,6 @@ function AuthPage() {
         const body = document.documentElement;
 
         if (theme === "dark") {
-            // Темная тема
             body.style.setProperty('--bg-color', '#467649');
             body.style.setProperty('--text-color', '#264728');
             body.style.setProperty('--input-bg', '#1E1E1E');
@@ -176,16 +170,15 @@ function AuthPage() {
             body.style.setProperty('--auth-link-color', '#8DDC92');
             body.style.setProperty('--submit-button-bg', '#467649');
         } else if (theme === "light") {
-            // Светлая тема
-             body.style.setProperty('--bg-color', '#5ccd63b3');
-             body.style.setProperty('--text-color', '#FFFFFF');
-             body.style.setProperty('--input-bg', '#f5f5f5');
-             body.style.setProperty('--input-text-color', '#333333');
-             body.style.setProperty('--button-bg', '#f5f5f5');  
-             body.style.setProperty('--title-color', '#f5f5f5');
-             body.style.setProperty('--auth-text-color', '#f5f5f5');
-             body.style.setProperty('--auth-link-color', '#467649');
-             body.style.setProperty('--submit-button-bg', '#8DDC92');
+            body.style.setProperty('--bg-color', '#5ccd63b3');
+            body.style.setProperty('--text-color', '#FFFFFF');
+            body.style.setProperty('--input-bg', '#f5f5f5');
+            body.style.setProperty('--input-text-color', '#333333');
+            body.style.setProperty('--button-bg', '#f5f5f5');
+            body.style.setProperty('--title-color', '#f5f5f5');
+            body.style.setProperty('--auth-text-color', '#f5f5f5');
+            body.style.setProperty('--auth-link-color', '#467649');
+            body.style.setProperty('--submit-button-bg', '#8DDC92');
         } else if (theme === "system") {
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             applyTheme(prefersDark ? 'dark' : 'light');
@@ -199,7 +192,7 @@ function AuthPage() {
             <Link to="/" className='back-to-home'>&lt;</Link>
             <h1 className='header-h1'>GreenUp</h1>
             <div></div>
-             <div className="theme-toggle" id="themeToggle">
+            <div className="theme-toggle" id="themeToggle">
                 <button className={`theme-btn ${themeOptionsVisible ? "expanded" : ""}`} id="toggleButton" onClick={toggleThemeOptions}>
                     <img src="./light.png" alt="Иконка темы" style={{ width: "24px", height: "24px" }} />
                 </button>
@@ -222,9 +215,9 @@ function AuthPage() {
                         <button type="submit">Войти</button>
                         {errorMessage && <div className="error-message">Неверный логин или пароль</div>}
                         <p className='auth-link-text'>
-                            Нет аккаунта? <button 
-                                type="button" 
-                                id="showRegister" 
+                            Нет аккаунта? <button
+                                type="button"
+                                id="showRegister"
                                 onClick={() => setShowLogin(false)}
                             >
                                 Зарегистрироваться
@@ -245,9 +238,9 @@ function AuthPage() {
                         <input type="password" id="newPassword" placeholder="Пароль" required />
                         <button type="submit">Зарегистрироваться</button>
                         <p className='auth-link-text'>
-                            Есть аккаунт? <button 
-                                type="button" 
-                                id="showLogin" 
+                            Есть аккаунт? <button
+                                type="button"
+                                id="showLogin"
                                 onClick={() => setShowLogin(true)}
                             >
                                 Войти

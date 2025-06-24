@@ -10,3 +10,4 @@ export default defineConfig({
     allowedHosts: ['.ngrok-free.app'], // разрешает все поддомены ngrok, это для разработки потом убрать надо будет
   },
 })
+

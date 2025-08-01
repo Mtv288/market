@@ -3,18 +3,18 @@ import '../static/products_page.css';
 import FilterSidebar from './filter_sidebar';
 
 function ProductsPage () {
-    const { setLoading } = useContext(LoadingContext);
+    // const { setLoading } = useContext(LoadingContext);
 
-    useEffect(() => {
-        setLoading(true);
+    // useEffect(() => {
+    //     setLoading(true);
 
-        //Эмуляция загрузки данных
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 1500);
+    //     //Эмуляция загрузки данных
+    //     const timer = setTimeout(() => {
+    //         setLoading(false);
+    //     }, 1500);
 
-        return () => clearTimeout(timer);
-    }, []);
+    //     return () => clearTimeout(timer);
+    // }, []);
 
     return (
         <>

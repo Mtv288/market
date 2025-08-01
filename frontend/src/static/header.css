@@ -223,6 +223,7 @@ header.fixed.hide {
   display: flex;
   gap: 30px;
   padding-right: 20px;
+  align-items: center;
 }
 
 .back-search::after {

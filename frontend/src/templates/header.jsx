@@ -67,7 +67,7 @@ function Header() {
                         />
                     <div className='fav-bas-block'>
                     <div className="favourites">
-                        <img className='favourites-logo' src="./favourites.svg" alt="ИЗБРАННОЕ" />
+                        <img className='favourites-logo' src="./like.svg" alt="ИЗБРАННОЕ" />
                     </div>
                     <div className="basket-block">
                         <img className='basket-img' src="./basket.svg" alt="КОРЗИНА" />

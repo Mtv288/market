@@ -1,11 +1,157 @@
+.products-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.filter {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    width: 250px;
+    flex-shrink: 0;
+    color: #8DDC92;
+    padding: 20px;
+    background: #FFF9EF;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+    position: relative;
+    top: 40px;
+}
+
+.category-list, .discount-list {
+    list-style: none
+}
+
+.category-list li, .discount-list li {
+    border-bottom: 1px solid #8DDC92;
+    font-size: 24px;
+}
+
+.category-list li button, .discount-list li button {
+    border: none;
+    background: none;
+    outline: none;
+    font-family: "Sofia Sans Extra Condensed";
+    font-weight: 500;
+    color: #8DDC92;
+    font-size: 24px;
+    position: relative;
+    left: 20px;
+}
+
+.category-list li button:focus::before, .discount-list li button:focus::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -30px;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    background-image: url('./checkMark.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.price-slider-container {
+    padding: 10px 10px 20px;
+    position: relative;
+}
+
+.slider-wrapper {
+    position: relative;
+    height: 30px;
+    margin-top: 20px;
+}
+
+.slider-track {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.slider-inactive-left {
+    position: absolute;
+    height: 100%;
+    background: #e0e0e0;
+    left: 0;
+}
+
+.slider-active {
+    position: absolute;
+    height: 100%;
+    background: #8DDC92;
+}
+
+.slider-inactive-right {
+    position: absolute;
+    height: 100%;
+    background: #e0e0e0;
+}
+
+.slider-thumb {
+    position: absolute;
+    width: 100%;
+    height: 0;
+    top: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    pointer-events: none;
+    z-index: 3;
+    margin: 0;
+    outline: none;
+}
+
+.slider-thumb::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border: 2px solid #8DDC92;
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.price-bubble {
+    position: absolute;
+    top: -40px;
+    transform: translateX(-50%);
+    background: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-size: 14px;
+    white-space: nowrap;
+    color: #8DDC92;
+    border: 1px solid #8DDC92;
+    z-index: 2;
+}
+
+.left-thumb {
+    z-index: 4;
+}
+
+.right-thumb {
+    z-index: 3;
+}
+
 .cards-block {
     width: 100%;
     height: 100%;
     overflow-x: hidden;
     padding: 50px;
     background: #FFF9EF;
-    display: flex;
-    justify-content: center;
+    flex-grow: 1;
 }
 
 .fade-in {
@@ -27,8 +173,10 @@
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: auto;
     gap: 20px;
-    max-width: 2000px;
-    }
+    margin: 0 auto;
+    max-width: 1400px;
+    padding: 0 20px;
+}
 
 .card {
     display: flex;
@@ -36,13 +184,16 @@
     flex-direction: column;
     height: 100%;
     max-height: 450px;
-    border-radius: 20px;
+    border-radius: 50px;
     gap: 3px;
     padding: 0;
+    margin: 0;
     overflow: hidden;
     transition: transform .5s ease;
     cursor: pointer;
-    border: 1px solid #467649;
+    color: #8DDC92;
+    border: 1px solid #8DDC92;
+    font-weight: 500;
 }
 
 .card:hover {
@@ -50,11 +201,14 @@
 }
 
 .img-wrapper {
+    display: block;
     width: 100%;
     height: 300px;
     overflow: hidden;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-radius: 50px;
+    border-bottom: 1px solid #8DDC92;
+    padding: 0;
+    margin: 0;
 }
 
 .img-card {
@@ -66,76 +220,17 @@
 .inform-block {
     width: 100%;
     height: 100%;
-    max-height: 170px;
+    max-height: 100px;
+    padding: 10px;
 }
 
 .name-card {
-    color: #467649;
-    padding: 10px;
     font-size: 30px;
-    letter-spacing: 1px;
-}
-
-.description-card {
-    color: #467649;
-    font-size: 20px;
-    padding: 10px;
-    letter-spacing: 1px;
+    font-weight: normal;
 }
 
 .price {
-    color: #467649;
-    font-weight: bold;
     font-size: 30px;
-    padding: 10px;
-    letter-spacing: 1px;
-}
-
-.btn-block-card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    padding: 5px;
-    width: 100%;
-    height: 100%;
-    max-height: 70px;
-    position: relative;
-}
-
-.btn-card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 130px;
-    height: 100%;
-    max-height: 50px;
-    padding: 10px 20px;
-    font-size: 15px;
-    background-color: #FFF9EF;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: #8DDC92;
-    transition: .3s;
-    border: 4px solid #8DDC92;
-    border-radius: 20px;
-    font-weight: bold;  
-}
-
-.btn-card:nth-child(1) {
-    border-start-start-radius: 20px;
-    border-end-start-radius: 20px;
-    border-start-end-radius: 10px;
-    border-end-end-radius: 10px;
-}
-
-.btn-card:nth-child(2) {
-    border-end-end-radius: 20px;
-    border-start-end-radius: 20px;
-    border-start-start-radius: 10px;
-    border-end-start-radius: 10px;
 }
 
 .btn-card:hover {
@@ -173,24 +268,6 @@
     max-height: 100px;
     }
 
-    .btn-block-card {
-    width: 100%;
-    height: 100%;
-    max-height: 70px;
-    position: relative;
-    top: 15px;
-}
-
-.btn-card {
-    width: 100%;
-    max-width: 80px;
-    height: 100%;
-    max-height: 30px;
-
-    font-size: 15px;
-}
-
-
     .img-wrapper {
         height: 180px;
     }
@@ -200,18 +277,8 @@
         padding: 5px;
     }
 
-    .description-card {
-        font-size: 12px;
-        padding: 5px;
-    }
-
     .price {
         font-size: 14px;
         padding: 5px;
-    }
-
-    .btn-card {
-        font-size: 12px;
-        padding: 6px;
     }
 }

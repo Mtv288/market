@@ -50,48 +50,43 @@ function Header() {
     return (
         <>
             <header className={`desktop-header ${isFixed ? 'fixed' : ''} ${isFixed && direction === 'down' ? 'hide' : ''}`.trim()}>
-                <div className="left-block">
                     <h1 className='h1-header'>GreenUp</h1>
+                    {/* <div className="menu">
+                        <input type="checkbox" id="burger-checkbox" className="burger-checkbox" checked={isBurgerOpen} onChange={(e) => setIsBurgerOpen(e.target.checked)}/>
+                        <label htmlFor="burger-checkbox" className="burger"></label>
+                    </div> */}
+                    <div className='search-block'>
                     <div className="menu">
                         <input type="checkbox" id="burger-checkbox" className="burger-checkbox" checked={isBurgerOpen} onChange={(e) => setIsBurgerOpen(e.target.checked)}/>
                         <label htmlFor="burger-checkbox" className="burger"></label>
                     </div>
-                    <div className='search-block'>
                         <input 
                         type="text" 
-                        placeholder='Поиск...'
+                        placeholder='Найти товар...'
                         className='search-input'
                         />
+                    <div className='fav-bas-block'>
+                    <div className="favourites">
+                        <img className='favourites-logo' src="./favourites.svg" alt="ИЗБРАННОЕ" />
+                    </div>
+                    <div className="basket-block">
+                        <img className='basket-img' src="./basket.svg" alt="КОРЗИНА" />
+                    </div>
+                    </div>
                     </div>
 
                     <div className="language-block">
-                        {/* <img className='language-img' src="./RUS.svg" alt="" /> */}
                         <button className='btn-language'>RU</button>
                     </div>
-
-                    <div className="favourites">
-                        <a href="#">ИЗБРАННОЕ</a>
-                    </div>
-                </div>
-
-                <div className="right-block">
+           
                     <div className="profile">
                         <Link to="/login" className='btn-profile'>
-                            ГОСТЬ
-                            <span className='icon-wrapper'>
-                                <img src="./icon.svg" alt="" />
-                            </span>
+                        <img className='profile-img' src="./profile.svg" alt="ПРОФИЛЬ" />
                         </Link>
                     </div>
-
-                    <div className="basket-block">
-                        <img className='basket-img' src="./Basket.svg" alt="" />
-                    </div>
-
                     <div className='geo-block'>
                         <img className='geo-img' src="./geo.svg" alt="" />
                     </div>
-                </div> 
             </header>
 
             

@@ -188,7 +188,6 @@
     cursor: pointer;
     font-size: 20px;
     transition: background 0.3s;
-    margin-top: 10px;
     position: relative;
    
 }
@@ -305,11 +304,11 @@ button[type="submit"] {
     display: flex;
     width: 100%;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .auth-link-text {
-    width: 200px;
+    width: 400px;
     color: #FFFFFF;
     font-size: 20px;
     font-weight: 900;

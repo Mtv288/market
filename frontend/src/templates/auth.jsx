@@ -157,39 +157,26 @@ function AuthPage() {
     };
 
     const applyTheme = (theme) => {
-        const body = document.documentElement;
+        document.documentElement.className = '';
 
-        if (theme === "dark") {
-            body.style.setProperty('--bg-color', '#467649');
-            body.style.setProperty('--text-color', '#264728');
-            body.style.setProperty('--input-bg', '#1E1E1E');
-            body.style.setProperty('--input-text-color', '#8DDC92');
-            body.style.setProperty('--title-color', '#264728');
-            body.style.setProperty('--button-bg', '#1E1E1E');
-            body.style.setProperty('--auth-text-color', '#1E1E1E');
-            body.style.setProperty('--auth-link-color', '#8DDC92');
-            body.style.setProperty('--submit-button-bg', '#467649');
-        } else if (theme === "light") {
-            body.style.setProperty('--bg-color', '#5ccd63b3');
-            body.style.setProperty('--text-color', '#FFFFFF');
-            body.style.setProperty('--input-bg', '#f5f5f5');
-            body.style.setProperty('--input-text-color', '#333333');
-            body.style.setProperty('--button-bg', '#f5f5f5');
-            body.style.setProperty('--title-color', '#f5f5f5');
-            body.style.setProperty('--auth-text-color', '#f5f5f5');
-            body.style.setProperty('--auth-link-color', '#467649');
-            body.style.setProperty('--submit-button-bg', '#8DDC92');
-        } else if (theme === "system") {
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            applyTheme(prefersDark ? 'dark' : 'light');
-            return;
+        if (theme !== "system") {
+            document.documentElement.classList.add(`theme-${theme}`);
+        } else {
+            document.documentElement.classList.add('theme-system');
+
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (systemDark) {
+                document.documentElement.classList.add('theme-dark');
+            } else {
+                document.documentElement.classList.add('theme-light');
+            }
         }
     };
 
     return (
         <>
         <div className='header-block'>
-            <Link to="/" className='back-to-home'>&lt;</Link>
+            <Link to="/" className='back-to-home'><img src="./arrow.svg" alt="" /></Link>
             <h1 className='header-h1'>GreenUp</h1>
             <div></div>
             <div className="theme-toggle" id="themeToggle">
@@ -212,22 +199,25 @@ function AuthPage() {
                         <h1>Вход</h1>
                         <input type="text" id="username" placeholder="Имя" required />
                         <input type="password" id="password" placeholder="Пароль" required />
+                        <p>
+                            <button type="button" id="forgotPassword" onClick={handleForgotPassword}>
+                                Забыли пароль?
+                            </button>
+                        </p>
                         <button type="submit">Войти</button>
                         {errorMessage && <div className="error-message">Неверный логин или пароль</div>}
-                        <p className='auth-link-text'>
-                            Нет аккаунта? <button
+                        <div className='auth-link-text-block'>
+                            <p className='auth-link-text'>
+                                Нет аккаунта? 
+                            </p>
+                            <button
                                 type="button"
                                 id="showRegister"
                                 onClick={() => setShowLogin(false)}
                             >
                                 Зарегистрироваться
                             </button>
-                        </p>
-                        <p style={{ textAlign: "center", marginTop: "10px" }}>
-                            <button type="button" id="forgotPassword" onClick={handleForgotPassword}>
-                                Забыли пароль?
-                            </button>
-                        </p>
+                        </div>
                     </form>
                 ) : (
                     <form className="login-form" id="registerForm" onSubmit={handleRegister}>
@@ -236,21 +226,19 @@ function AuthPage() {
                         <input type="email" id="newEmail" placeholder="Почта" required />
                         <input type="phone" id="newPhone" placeholder="Телефон" required />
                         <input type="password" id="newPassword" placeholder="Пароль" required />
-                        <button type="submit">Зарегистрироваться</button>
-                        <p className='auth-link-text'>
-                            Есть аккаунт? <button
+                        <button id='btn-reg' type="submit">Зарегистрироваться</button>
+                        <div className='auth-link-text-block'>
+                            <p className='auth-link-text'>
+                                Есть аккаунт?
+                            </p>
+                            <button
                                 type="button"
                                 id="showLogin"
                                 onClick={() => setShowLogin(true)}
                             >
                                 Войти
                             </button>
-                        </p>
-                        <p style={{ textAlign: "center", marginTop: "10px" }}>
-                            <button type="button" id="forgotPassword" onClick={handleForgotPassword}>
-                                Забыли пароль?
-                            </button>
-                        </p>
+                        </div>
                     </form>
                 )}
             </div>
